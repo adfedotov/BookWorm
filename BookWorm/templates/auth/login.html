@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container-fluid mt-5">
   {% for message in get_flashed_messages() %}
     <div class="alert alert-danger flash" role="alert">
       {{ message }}
     </div>
   {% endfor %}
-  <div class="container-fluid d-flex justify-content-center ">
-    <form method="POST" class="w-25">
+  <div class="row justify-content-center">
+    <form method="POST">
       {{ form.hidden_tag() }}
       <div class="form-group">
       {{ form.email.label }}{{ form.email(class_="form-control") }}
