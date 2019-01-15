@@ -1,0 +1,15 @@
+.card {
+	max-width: 200px;
+}
+
+.card-body {
+	padding: 0.5rem;
+}
+
+.card-title {
+	margin-bottom: 0;
+}
+
+.card-text {
+	margin-bottom: 0;
+}

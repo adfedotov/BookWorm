@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .forms import RegisterForm, LoginForm
 from .controllers import register_user, check_registered, check_password, get_userid, get_user
 from ..db import close_db
-from functools import wraps
+import functools
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -50,6 +50,8 @@ def loggedin_user():
     if user_id is not None:
         # g.user holds user_id, first_name, last_name. g.user[i] to access
         g.user = get_user(user_id)
+    else:
+        g.user = None
 
 def login_required(view):
     '''This decorator checks whether user is logged in. Returns normal view if yes, redirect to login page if no'''
