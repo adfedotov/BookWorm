@@ -1,15 +1,131 @@
+
 .card {
 	max-width: 200px;
+	transition: all .2s;
 }
 
 .card-body {
 	padding: 0.5rem;
 }
 
+.card:hover {
+	transform: scale(1.05);
+	box-shadow: 0 1rem 1rem rgba(0, 0, 0, .25);
+}
+
 .card-title {
-	margin-bottom: 0;
+	margin-bottom: 8px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .card-text {
 	margin-bottom: 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+.btn-card {
+	width: 100%;
+}
+
+/* Create */
+.book-search {
+	text-align: center;
+	background-image: url(img/createpic.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: calc(100vh - 56px);
+}
+
+.book-search-text {
+	margin-top: 3%;
+	margin-bottom: 3%;
+	display: inline-block;
+	letter-spacing: .1em;
+	position: relative;
+}
+
+.book-search-text::after {
+	position: absolute;
+	content: '';
+	display: block;
+	background: grey;
+	width: 150px;
+	height: 2px;
+	transform: translateX(25%);
+}
+
+.book-search-block input {
+	width: 50%;
+	min-width: 250px;
+	height: 5vh;
+	border: .5px solid #707070;
+	box-shadow: 1px 2px 10px grey;
+	padding-left: 2%;
+	transition: all .2s;
+}
+
+.book-search-block input:hover {
+	transform: translateY(-3px);
+	box-shadow: 1px 4px 10px grey;
+}
+
+.book-search-block-results {
+	margin: 10px auto;
+	display: block;
+	width: 35%;
+	min-width: 250px;
+}
+
+
+.book-result {
+	background-color: rgba(255, 255, 255, 0.75);
+	margin: 8px 0;
+	height: 12vh;
+	box-shadow: 0 1px 5px #707070;
+	transition: all .2s;
+	text-align: left;
+	position: relative;
+}
+
+.book-result:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 0 4px #007BFF;
+	border: 0;
+	background-color: white;
+	transition: background-color 500ms linear;
+}
+
+.book-result img {
+	min-width: 50px;
+	height: 100%;
+	border-right: .5px solid #707070;
+	padding: 2px;
+}
+
+.book-result h4 {
+	display: inline-block;
+	position: absolute;
+	margin-left: 30px;
+}
+
+.book-result small {
+	display: inline-block;
+	margin-left: 30px;
+}
+
+.book-result a {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
 }
