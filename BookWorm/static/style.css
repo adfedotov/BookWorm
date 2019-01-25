@@ -94,6 +94,7 @@
 	transition: all .2s;
 	text-align: left;
 	position: relative;
+	overflow: hidden;
 }
 
 .book-result:hover {
@@ -105,20 +106,23 @@
 }
 
 .book-result img {
+	float: left;
 	min-width: 50px;
+	width: 15%;
 	height: 100%;
 	border-right: .5px solid #707070;
 	padding: 2px;
 }
 
-.book-result h4 {
+.book-result-text {
 	display: inline-block;
-	position: absolute;
+}
+
+.book-result-text h4 {
 	margin-left: 30px;
 }
 
-.book-result small {
-	display: inline-block;
+.book-result-text small {
 	margin-left: 30px;
 }
 
