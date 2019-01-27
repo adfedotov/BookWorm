@@ -30,7 +30,10 @@ function book_request(books) {
       dataType: 'json',
       data: {q: books[i][1]},
       success: function(book_json) {
-        $("div.book_content").append('<div class="card m-2" style="width: 18rem;" onclick="location.href=#"><img class="card-img-top" src="http://covers.openlibrary.org/b/isbn/' + book_json["docs"][0]["isbn"][0] + '-M.jpg" alt="Card image cap"><div class="card-body"><h5 class="card-title">' + book_json["docs"][0]["title"].slice(0,40) + '</h5><p class="card-text">by ' + book_json["docs"][0]["author_name"][0] + '</p><a href="#" class="btn btn-primary btn-card">Go somewhere</a></div></div>');
+        console.log(book_json);
+        var lastedition = book_json["docs"][0]["edition_key"].length - 1;
+        // error is due to some results not "having" author listed
+        $("div.book_content").append('<div class="card m-2" style="width: 18rem;" onclick="location.href=#"><img class="card-img-top" src="http://covers.openlibrary.org/b/olid/' + book_json["docs"][0]["edition_key"][lastedition] + '-M.jpg" alt="Card image cap"><div class="card-body"><h5 class="card-title">' + book_json["docs"][0]["title"].slice(0,40) + '</h5><p class="card-text">by ' + book_json["docs"][0]["author_name"][0] + '</p><a href="#" class="btn btn-primary btn-card">Go somewhere</a></div></div>');
       }
     });
   }
