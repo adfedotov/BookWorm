@@ -4,7 +4,7 @@
 <!-- Need error handling -->
 <div class="fluid-container note-create">
   <div class="book-display">
-    <img src="{{ book_info['cover']['medium'] }}" alt="Pic">
+    <img src="{{ book_info['cover']['medium'] }}" alt="Book Cover">
     <div class="book-display-info">
       <h4>{{ book_info['title'] }}</h4>
       <small>by {{ book_info['authors'][0]['name'] }}</small>
@@ -18,7 +18,7 @@
     </div>
 
     <form method="post">
-      {{ form.hidden_tag() }}
+      {{ form.csrf_token() }}
       {{ form.text() }}
       {{ form.submit(class_="btn btn-success btn-savenote") }}
     </form>
@@ -43,7 +43,6 @@
   });
   $('form').submit(function() {
     $('input[name=text]').val(JSON.stringify(quill.getContents()));
-    console.log("Submitted", $(this).serialize(), $(this).serializeArray());
   });
 </script>
 {% endblock %}

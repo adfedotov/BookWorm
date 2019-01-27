@@ -14,16 +14,21 @@
   </div>
   <div class="row mt-3">
     <div class="col d-flex flex-wrap justify-content-lg-start justify-content-md-start justify-content-sm-around justify-content-around book_content">
+      {% if books %}
+        {% for book in books %}
+          <div class="card m-2" style="width: 18rem;">
+            <img class="card-img-top" src="{{ book[3] }}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{ book[1] }}</h5>
+              <p class="card-text">by {{ book[2] }}</p>
+              <a href="#" class="btn btn-primary btn-card">View</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>You don't have any notes.</p>
+      {% endif %}
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script type="text/javascript">
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-  $(document).ready(function() {
-    book_request({{ books|safe }});
-  });
-</script>
 {% endblock %}
