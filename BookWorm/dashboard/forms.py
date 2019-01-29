@@ -4,4 +4,8 @@ from wtforms.validators import DataRequired, Length
 
 class CreateNote(FlaskForm):
     text = HiddenField("note", [DataRequired()])
-    submit = SubmitField("Submit")
+    submit = SubmitField("Save")
+
+class UpdateNote(FlaskForm):
+    text = HiddenField("note", [DataRequired()])
+    submit = SubmitField("Save")

@@ -8,10 +8,11 @@
     <div class="book-display-info">
       <h4>{{ book_info['title'] }}</h4>
       <small>by {{ book_info['authors'][0]['name'] }}</small>
+      <a href="{{ url_for('dashboard.note_delete', olid=olid) }}"><button type="button" class="btn btn-danger btn-book-display">Delete note</button></a>
     </div>
   </div>
   <div class="note-create-text">
-    <h3>Create your note.</h3>
+    <h3>Edit your note.</h3>
   </div>
   <div class="note-module">
     <div id="editor-container">
@@ -20,7 +21,7 @@
     <form method="post">
       {{ form.csrf_token() }}
       {{ form.text() }}
-      {{ form.submit(class_="btn btn-success btn-savenote" value="Save") }}
+      {{ form.submit(class_="btn btn-success btn-savenote") }}
     </form>
 
   </div>
@@ -41,6 +42,7 @@
     placeholder: 'Compose an epic...',
     theme: 'snow'
   });
+  quill.setContents({{ note|safe }});
   $('form').submit(function() {
     $('input[name=text]').val(JSON.stringify(quill.getContents()));
   });

@@ -148,12 +148,21 @@
 	border-radius: 10px;
 	margin: 1% auto 2% auto;
 	text-align: left;
+	position: relative;
+}
+
+.book-display h4 {
+	display: inline-block;
+}
+
+.book-display small {
+	display: block;
 }
 
 .book-display img {
 	float: left;
-	width: 15%;
-	min-width: 100px;
+	width: 18%;
+	min-width: 110px;
 	height: 100%;
 	padding: 1%;
 }
@@ -161,6 +170,13 @@
 .book-display-info {
 	display: inline-block;
 	margin-left: 2%;
+	max-width: 70%;
+}
+
+.btn-book-display {
+	position: absolute;
+	right: 2%;
+	bottom: 3%;
 }
 
 .note-create-text {
@@ -196,4 +212,15 @@
 .btn-savenote {
 	float: right;
 	margin: 1%;
+}
+
+.note-view {
+	width: 60%;
+	min-width: 540px;
+	margin: 0 auto;
+	border-radius: 10px;
+}
+
+#editor-container {
+	font-size: 20px;
 }

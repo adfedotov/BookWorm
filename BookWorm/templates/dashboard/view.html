@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="fluid-container">
+  <div class="book-display">
+    <img src="{{ book_info['cover']['medium'] }}" alt="Book Cover">
+    <div class="book-display-info">
+      <h4>{{ book_info['title'] }}</h4>
+      <small>by {{ book_info['authors'][0]['name'] }}</small>
+      <a href="{{ url_for('dashboard.note_edit', olid=olid) }}"><button type="button" name="button" class="btn btn-warning btn-book-display">Edit</button></a>
+    </div>
+  </div>
+  <div id="editor-container" class="note-view">
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  var options = {
+  modules: {
+    toolbar: false
+  },
+  placeholder: 'Compose an epic...',
+  readOnly: true,
+  theme: 'snow'
+};
+var editor = new Quill('#editor-container', options);
+editor.setContents({{ note|safe }});
+editor.disable();
+</script>
+{% endblock %}
