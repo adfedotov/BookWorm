@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app(config):
 
@@ -14,5 +14,9 @@ def create_app(config):
 
     from .dashboard import bp as dashboard_bp
     app.register_blueprint(dashboard_bp)
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
     return app

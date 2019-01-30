@@ -1,11 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="jumbotron">
-  <h1 class="display-4">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+<div class="main">
+  <div class="main-header">
+    <h1>BookWorm</h1>
+    <h2>An application to store you thoughts and ideas on the books you have read and make you never forget them.</h2>
+    <div class="main-auth">
+      <a href="{{ url_for('auth.login') }}" class="btn-main btn-left">Log in</a>
+      <a href="{{ url_for('auth.register') }}" class="btn-main btn-right">Register</a>
+    </div>
+      <a href="#" class="btn-main btn-long">About</a>
+      <a href="#" class="git-link"><img src="{{ url_for('static', filename='img/github.png') }}" alt="GitHub"></a>
+  </div>
 </div>
 {% endblock %}

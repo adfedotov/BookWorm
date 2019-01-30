@@ -4,7 +4,11 @@
 <!-- Need error handling -->
 <div class="fluid-container note-create">
   <div class="book-display">
-    <img src="{{ book_info['cover']['medium'] }}" alt="Book Cover">
+    {% if book_info['cover'] %}
+      <img src="{{ book_info['cover']['medium'] }}" alt="Book Cover">
+    {% else %}
+      <img src="{{ url_for('static', filename='img/nocover.jpg') }}" alt="No book image">
+    {% endif %}
     <div class="book-display-info">
       <h4>{{ book_info['title'] }}</h4>
       <small>by {{ book_info['authors'][0]['name'] }}</small>
@@ -20,7 +24,7 @@
     <form method="post">
       {{ form.csrf_token() }}
       {{ form.text() }}
-      {{ form.submit(class_="btn btn-success btn-savenote" value="Save") }}
+      {{ form.submit(class_="btn btn-success btn-savenote") }}
     </form>
 
   </div>
@@ -28,7 +32,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
   var quill = new Quill('#editor-container', {
     modules: {

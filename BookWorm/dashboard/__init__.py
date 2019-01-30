@@ -26,9 +26,6 @@ def book_choice():
 def note_create(olid):
     if note_exists(g.user[0], olid):
         return redirect(url_for('dashboard.note_view', olid=olid))
-    else:
-        print('Note doesn\'t exist')
-
     form = CreateNote()
     if form.validate_on_submit():
         save_note(g.user[0], olid, form.text.data)
@@ -48,18 +45,18 @@ def note_view(olid):
 @login_required
 def note_edit(olid):
     if not note_exists(g.user[0], olid):
-        return 'Note doesn\t exist'
+        return abort(404)
     form = UpdateNote()
     if form.validate_on_submit():
         update_note(g.user[0], olid, form.text.data)
         return redirect(url_for('dashboard.note_view', olid=olid))
     book_info = get_book_info(olid)
-    return render_template('dashboard/edit.html', book_info=book_info, form=form, note=get_note(g.user[0], olid))
+    return render_template('dashboard/edit.html', book_info=book_info, form=form, note=get_note(g.user[0], olid), olid=olid)
 
 @bp.route('/delete/<olid>')
 @login_required
 def note_delete(olid):
     if not note_exists(g.user[0], olid):
-        return 'Note doesn\t exist'
+        return abort(404)
     delete_note(g.user[0], olid)
     return redirect(url_for('dashboard.dashboard'))

@@ -16,7 +16,7 @@
 {% block scripts %}
 <script>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-  $('#book-search').on('keyup', function(e){
+  $('#book-search').on('keydown', function(e){
     console.log("type");
     var input = $(this).val();
     $.getJSON({
@@ -29,7 +29,6 @@
       dataType: 'json',
       data: {q: input},
       success: function(books) {
-        console.log(books);
         $('.book-search-block-results').empty();
         for (var i = 0; i < 5; i++) {
           if (books["docs"][i] == null) { break; }
