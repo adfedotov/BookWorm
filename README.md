@@ -21,6 +21,7 @@ projects a lot better.
 <ul>
   <li>Solve a problem with repeated books from OpenLibrary API search module</li>
   <li>Replace OpenLibrary's API search empty covers like in note view</li>
+  <li>PyTest</li>
   <li>edit Jinja Templates to eliminate redundancy</li>
   <li>Setup SMTP service to handle register messages</li>
   <li>Redesign with SASS, no bootstrap</li>
