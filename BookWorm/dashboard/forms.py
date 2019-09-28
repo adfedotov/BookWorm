@@ -1,11 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField
-from wtforms.validators import DataRequired, Length
+from wtforms import SubmitField, HiddenField
+from wtforms.validators import DataRequired
 
-class CreateNote(FlaskForm):
-    text = HiddenField("note", [DataRequired()])
-    submit = SubmitField("Save")
 
-class UpdateNote(FlaskForm):
+class EditNote(FlaskForm):
     text = HiddenField("note", [DataRequired()])
     submit = SubmitField("Save")
