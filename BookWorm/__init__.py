@@ -1,22 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 
 def create_app(config):
+    """
+    Flask application factory
 
+    :param config: Path to python config file
+    """
     app = Flask(__name__)
-
     app.config.from_object(config)
 
-    from .main import bp as main_bp
-    app.register_blueprint(main_bp)
+    # Setup database
+    # TODO: Migration
+    db.init_app(app)
 
-    from .auth import bp as auth_bp
-    app.register_blueprint(auth_bp)
+    # Import modules
+    from .main import create_module as create_main_module
+    create_main_module(app)
 
-    from .dashboard import bp as dashboard_bp
-    app.register_blueprint(dashboard_bp)
+    from .auth import create_module as create_auth_module
+    create_auth_module(app)
 
-    @app.errorhandler(404)
-    def page_not_found(e):
-        return render_template('404.html'), 404
+    from .dashboard import create_module as create_dashboard_module
+    create_dashboard_module(app)
 
     return app
