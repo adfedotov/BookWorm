@@ -1,38 +1,44 @@
 # BookWorm
 BookWorm is a project developed to help people keep their initial thoughts on the books they have read. 
 
-It is my personal project to get into python web development. This project was created to solve my personal problem of reading books
+This project was created to solve my personal problem of reading books
 and quickly forgetting the main ideas and highlights from them. 
 
-Technologies used: Python (Flask), HTML, CSS, jQuery, Quilljs for note taking
+What I used:
+- Python's Flask framework
+- SQLAlchemy for ORM
+- Integrated GoodReads API
+- Quilljs for note taking
+- HTML, CSS, JavaScript
 
-I would really like to get some feedback and criticism from professionals. It will help me to learn more and make my future
-projects a lot better.
+## Setup
+- You need to install dependencies
+```
+pip install -r requirments.txt
+```
+- Edit the config file 'config.py' to include a URI for your database (I use PostgreSQL). You will also need to include
+a GoodReads API key.
+- Initialize the database by running the app in shell context
+```
+set FLASK_APP=shell_context.py
+flask shell
+>>> db.create_all()  # This will create all the tables you need in the database
+```
+- You should be set! Run the app
+```buildoutcfg
+set FLASK_APP=main.py
+flask run
+```
+*You should be able to access it by going to 127.0.0.1:5000*
 
-![group 1](https://user-images.githubusercontent.com/38639610/51959729-0944e780-2413-11e9-91c8-88f02b2b9bc3.png)
+## Database
 
-## What I have learned
-
-- It is pretty annoying to switch from one language to another if you want a real responsive web application JavaScript -> Python, but you get used to it quickly
-- Never dive into backend with an idea, but without at least making a basic outline of web application visual functions
-- Flask is very intuitive and you can possibly do so much if you use other python modules together with Flask
-- Some books don't have ISBN?
+![bookworm](https://user-images.githubusercontent.com/38639610/65824665-871af600-e221-11e9-9cab-3c7320911a8b.png)
 
 
 ## To Do
 
-- Solve a problem with repeated books from OpenLibrary API search module
-- Replace OpenLibrary's API search empty covers like in note view
-- PyTest
-- edit Jinja Templates to eliminate redundancy
-- Setup SMTP service to handle register messages
-- Redesign with SASS, no bootstrap
-- Docker
-
-
-## In the future
-
-- Recommend books based on the user's books in the library
-- An algorithm that recommends refreshing the memory of a book
-- Make users able to make their notes public
-- Deployment to AWS/Azure
+- Update data displayed when making a book search
+- Tests
+- GoodReads has limitations on API usage, need to set certain restrictions
+- Improve design
