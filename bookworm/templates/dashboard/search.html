@@ -13,7 +13,7 @@
                     <img src="{{ book['img_url'] }}" alt="Book cover image">
                     <div class="searh-card-info">
                         <h3>{{ book['title'] }}</h3>
-                        <small>Year: {{ book['year'] }}</small>
+                        <small>Publication year: {{ book['year'] }}</small>
                         <small><i>by {{ book['author'] }}</i></small>
                     </div>
                     <a href="{{ url_for('dashboard.note_edit', bid=book['id']) }}" class="btn btn-choose">Choose</a>

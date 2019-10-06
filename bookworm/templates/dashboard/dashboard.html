@@ -4,7 +4,7 @@
 <section class="dashboard">
     <div class="dashboard-controls">
         <a href="{{ url_for('dashboard.book_search') }}" class="btn btn-new">Create New</a>
-        <input type="text" name="Note search" placeholder="Search for your note" id="local-search" oninput="localSearch();">
+        <input type="text" name="Note search" placeholder="Search for your note" id="local-search">
     </div>
     <div class="dashboard-books">
       {% if cards[0] %}

@@ -195,6 +195,7 @@ nav ul li a {
 	object-fit: contain;
 	height: auto;
 	max-height: 100%;
+	width: 100px;
 }
 .search-result-card a {
 	align-self: center;
@@ -224,6 +225,9 @@ nav ul li a {
     display: flex;
     flex-direction: column;
     margin: 0 auto 0 1em;
+}
+.book-display-controls {
+    min-width: 80px;
 }
 .book-display-controls form {
     display: flex;
