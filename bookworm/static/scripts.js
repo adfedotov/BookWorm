@@ -1,6 +1,6 @@
-dashboardMain() {
+function dashboardMain() {
     document.getElementById('local-search').oninput = function() {
-        let input = this.value
+        let input = this.value;
         const cards = document.getElementsByClassName('dashboard-books')[0].children;
         for (i = 0; i < cards.length; i++) {
             let title = cards[i].children[1];
@@ -14,11 +14,17 @@ dashboardMain() {
 }
 
 function dashboardSearch() {
+    const input = document.getElementById('book-search');
     const base = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
     document.getElementById('book-search-btn').onclick = function() {
-        const query = document.getElementById('book-search').value;
-        search(query);
+        search(input.value);
         return false;
+    }
+
+    input.onkeyup = function(e) {
+        if (e.keyCode === 13)
+            search(input.value);
     }
 
     function search(query) {
@@ -27,7 +33,7 @@ function dashboardSearch() {
 }
 
 window.onload = function(e) {
-    if (window.location.pathname === '/dashboard') {
+    if (window.location.pathname === '/dashboard/') {
         dashboardMain();
     }
     else if (window.location.pathname.includes('/dashboard/search')) {
