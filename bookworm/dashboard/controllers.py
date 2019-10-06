@@ -69,8 +69,7 @@ def note_delete(bid):
     note = Note.get_note(g.user[0], bid)
     if note is None:
         return '404'
-
-    db.session.remove(note)
-    db.commit()
+    db.session.delete(note)
+    db.session.commit()
 
     return redirect(url_for('dashboard.dashboard'))

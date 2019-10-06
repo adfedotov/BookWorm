@@ -125,7 +125,11 @@ class GoodReadsAPI(APICall):
             book_info = dict()
             book_info['id'] = book['best_book']['id']['#text']
             book_info['title'] = book['best_book']['title']
-            book_info['author'] = book['best_book']['author']['name']
+            book_info['year'] = book['original_publication_year']['#text']
+            if type(book['best_book']['author']) is list:
+                book_info['author'] = book['best_book']['author'][0]['name']
+            else:
+                book_info['author'] = book['best_book']['author']['name']
             book_info['img_url'] = book['best_book']['image_url']
             result.append(book_info)
         return result
@@ -135,7 +139,11 @@ class GoodReadsAPI(APICall):
         book_info = dict()
         book_info['title'] = book['title']
         book_info['img_url'] = book['image_url']
-        book_info['author'] = book['authors']['author']['name']
+        # if a book has multiple authors, only the first one will be returned TODO: Allow multiple authors
+        if type(book['authors']['author']) is list:
+            book_info['author'] = book['authors']['author'][0]['name']
+        else:
+            book_info['author'] = book['authors']['author']['name']
         book_info['year'] = book['publication_year']
         book_info['isbn'] = book['isbn'] or book['isbn13']
         return book_info
