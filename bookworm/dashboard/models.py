@@ -72,17 +72,23 @@ class APICall(object):
         """
         self.api_url = api_url
         self.api_key = api_key
+        self.last_request = datetime.datetime.now()
 
-    def request(self, params={}):
+    def request(self, params=None):
         """
-        Sends request and returns response text, can set additional additional parameters by passing a dictionary
+        Sends request and returns response, can set additional additional parameters by passing a dictionary
 
         :param params:
-        :rtype: str
+        :rtype: response object
         """
+        params = params if params else dict()
         params['key'] = self.api_key
-        response = requests.get(self.api_url, params=params)
-        return response.text
+        try:
+            response = requests.get(self.api_url, params=params)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return None
+        return response
 
 
 class GoodReadsAPI(APICall):
@@ -93,7 +99,7 @@ class GoodReadsAPI(APICall):
         super(GoodReadsAPI, self).__init__('https://www.goodreads.com/',
                                            current_app.config['GOODREADS_API_KEY'])
     
-    def book_search(self, query):  # TODO: Error Handling
+    def book_search(self, query):
         """
         Sends a book search request with a provided query. Returns a list of refactored
         dictionaries of found books.
@@ -103,8 +109,18 @@ class GoodReadsAPI(APICall):
         """
         self.api_url += 'search/index.xml'
         request = {'q': query}
-        response = self.request(request)
-        return self.__refactor_search_dict(XMLParser.to_dict(response)['GoodreadsResponse']['search']['results']['work'])
+        try:
+            response = self.request(request)
+            if response.status_code == 401:
+                raise InvalidApiKeyException("Provided API key is not valid")
+        except (requests.exceptions.RequestException, InvalidApiKeyException) as e:
+            print(e)
+            return []
+        parsed_response = XMLParser.to_dict(response.text)
+        if parsed_response['GoodreadsResponse']['search']['total-results'] == '0':
+            return []
+        else:
+            return self.__refactor_search_dict(parsed_response['GoodreadsResponse']['search']['results']['work'])
 
     def get_book(self, bid):
         """
@@ -115,8 +131,15 @@ class GoodReadsAPI(APICall):
         :return:
         """
         self.api_url += f'book/show/{bid}.xml'
-        response = self.request()
-        return self.__refactor_book_dict(XMLParser.to_dict(response)['GoodreadsResponse']['book'])
+        try:
+            response = self.request()
+            if response.status_code == 401:
+                raise InvalidApiKeyException("Provided API key is not valid")
+        except (requests.exceptions.RequestException, InvalidApiKeyException) as e:
+            print(e)
+            return []
+        print(self.last_request)
+        return self.__refactor_book_dict(XMLParser.to_dict(response.text)['GoodreadsResponse']['book'])
 
     @staticmethod
     def __refactor_search_dict(books):
@@ -125,11 +148,14 @@ class GoodReadsAPI(APICall):
             book_info = dict()
             book_info['id'] = book['best_book']['id']['#text']
             book_info['title'] = book['best_book']['title']
-            book_info['year'] = book['original_publication_year']['#text']
-            if type(book['best_book']['author']) is list:
-                book_info['author'] = book['best_book']['author'][0]['name']
+            if '#text' in book['original_publication_year']:
+                book_info['year'] = book['original_publication_year']['#text']
             else:
-                book_info['author'] = book['best_book']['author']['name']
+                book_info['year'] = 'Unknown Year'
+            if type(book['best_book']['author']) is list:
+                book_info['author'] = [author['name'] for author in book['best_book']['author']]
+            else:
+                book_info['author'] = [book['best_book']['author']['name']]
             book_info['img_url'] = book['best_book']['image_url']
             result.append(book_info)
         return result
@@ -139,19 +165,28 @@ class GoodReadsAPI(APICall):
         book_info = dict()
         book_info['title'] = book['title']
         book_info['img_url'] = book['image_url']
-        # if a book has multiple authors, only the first one will be returned TODO: Allow multiple authors
         if type(book['authors']['author']) is list:
-            book_info['author'] = book['authors']['author'][0]['name']
+            book_info['author'] = [author['name'] for author in book['authors']['author']]
         else:
-            book_info['author'] = book['authors']['author']['name']
-        book_info['year'] = book['publication_year']
+            book_info['author'] = [book['authors']['author']['name']]
+        if 'publication_year' in book:
+            book_info['year'] = book['publication_year']
+        else:
+            book_info['year'] = 'Unknown Year'
+
         book_info['isbn'] = book['isbn'] or book['isbn13']
         return book_info
 
 
 class XMLParser(object):
-    # TODO: Implement own parser
     @staticmethod
     def to_dict(xml_string):
         """Converts the XML string into a dictionary using xmltodict module"""
         return xmltodict.parse(xml_string)
+
+
+class InvalidApiKeyException(Exception):
+    """Exception raised for invalid GoodReads API Key in config"""
+    def __init__(self, message):
+        self.message = '[GoodReadsAPI Error]: ' + message
+        super().__init__(self.message)

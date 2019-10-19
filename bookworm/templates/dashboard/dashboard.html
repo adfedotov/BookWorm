@@ -12,7 +12,7 @@
           <div class="card">
               <img src="{{ card['img_url'] }}">
               <h3 title="{{ card['title'] }}">{{ card['title'] }}</h3>
-              <small title="by {{ card['author'] }}">by {{ card['author'] }}</small>
+              <small title="by {{ card['author'] }}">by {{ card['author'][0] }}</small>
               <small>Last Edit: {{ card['last_update'] }}</small>
               <a class="btn btn-card" href="{{ url_for('dashboard.note_view', bid=card['bid']) }}">View</a>
           </div>

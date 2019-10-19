@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, g
+from flask import Blueprint, render_template, redirect, url_for, g
 from ..auth.controllers import login_required
 from .models import db, Note, GoodReadsAPI
 from .forms import EditNote
@@ -13,7 +13,9 @@ def dashboard():
     user_notes = Note.get_user_notes(g.user[0])
     for note in user_notes:
         card_info = GoodReadsAPI().get_book(note.bid)
-        card_info['last_update'] = note.last_update.strftime('%m/%d/%Y')  # TODO: Logic
+        if len(card_info) == 0:
+            continue
+        card_info['last_update'] = note.last_update.strftime('%m/%d/%Y')
         card_info['bid'] = note.bid
         cards.append(card_info)
     return render_template('dashboard/dashboard.html', cards=cards)
