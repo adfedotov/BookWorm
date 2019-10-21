@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="profile">
+	<div class="profile-info">
+		{% if own_profile %}
+			<form method="post">
+				{{ form.csrf_token() }}
+				<div class="profile-item-edit">
+					{{ form.first_name.label }}
+					{{ form.first_name(value=user.first_name) }}
+    				{% if form.first_name.errors %}
+      					{% for e in form.first_name.errors %}
+        					<small>{{ e }}</small>
+      					{% endfor %}
+    				{% endif %}
+				</div>
+				
+				<div class="profile-item-edit">
+	        		{{ form.last_name.label }}
+					{{ form.last_name(value=user.last_name) }}
+	        		{% if form.first_name.errors %}
+	          			{% for e in form.last_name.errors %}
+	            		<small>{{ e }}</small>
+	          			{% endfor %}
+	        		{% endif %}
+	        	</div>
+
+	        	<div class="profile-item-edit">
+	        		{{ form.email.label }}
+					{{ form.email(value=user.email) }}
+	        		{% if form.email.errors %}
+	          			{% for e in form.email.errors %}
+	            		<small>{{ e }}</small>
+	          			{% endfor %}
+	        		{% endif %}
+	        	</div>
+
+        		{{ form.submit(class_="btn btn-auth") }}
+			</form>
+		{% else %}
+			<div class="profile-item">
+				<p class="profile-item-title">First Name:</p>
+				<p class="profile-item-value">{{ user.first_name }}</p>
+			</div>
+
+			<div class="profile-item">
+				<p class="profile-item-title">Last Name:</p>
+				<p class="profile-item-value">{{ user.last_name}}</p>
+			</div>
+
+			<div class="profile-item">
+				<p class="profile-item-title">Email:</p>
+				<p class="profile-item-value">{{ user.email }}</p>
+			</div>
+		{% endif %}
+	</div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

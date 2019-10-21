@@ -20,7 +20,7 @@
         </nav>
         <div class="controls">
             {% if g.user %}
-                <p>Hi, {{ g.user[1] }}</p>
+                <p>Hi, <a href="{{ url_for('dashboard.profile') }}">{{ g.user[1] }}</a></p>
                 <a href="{{ url_for('auth.logout') }}" class="btn">Log Out</a>
             {% else %}
                 <a href="{{ url_for('auth.login') }}" class="btn">Log In</a>

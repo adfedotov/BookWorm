@@ -8,7 +8,7 @@
       </div>
     {% endfor %}
     <form method="POST">
-        {{ form.hidden_tag() }}
+	    {{ form.csrf_token }}
         {{ form.email.label }}{{ form.email(class_="auth-field") }}
         {% if form.email.errors %}
           {% for e in form.email.errors %}

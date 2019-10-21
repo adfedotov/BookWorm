@@ -3,6 +3,7 @@ import datetime
 import requests
 from flask import current_app
 import xmltodict
+from ratelimit import limits, sleep_and_retry
 
 
 class Note(db.Model):
@@ -73,7 +74,7 @@ class APICall(object):
         self.api_url = api_url
         self.api_key = api_key
         self.last_request = datetime.datetime.now()
-
+    
     def request(self, params=None):
         """
         Sends request and returns response, can set additional additional parameters by passing a dictionary
@@ -110,7 +111,7 @@ class GoodReadsAPI(APICall):
         self.api_url += 'search/index.xml'
         request = {'q': query}
         try:
-            response = self.request(request)
+            response = self.limited_request(request)
             if response.status_code == 401:
                 raise InvalidApiKeyException("Provided API key is not valid")
         except (requests.exceptions.RequestException, InvalidApiKeyException) as e:
@@ -132,14 +133,19 @@ class GoodReadsAPI(APICall):
         """
         self.api_url += f'book/show/{bid}.xml'
         try:
-            response = self.request()
+            response = self.limited_request()
             if response.status_code == 401:
                 raise InvalidApiKeyException("Provided API key is not valid")
         except (requests.exceptions.RequestException, InvalidApiKeyException) as e:
             print(e)
             return []
-        print(self.last_request)
         return self.__refactor_book_dict(XMLParser.to_dict(response.text)['GoodreadsResponse']['book'])
+    
+    # Due to API rate limitations, only 1 request per sec is allowed
+    @sleep_and_retry
+    @limits(calls=1, period=1)
+    def limited_request(self, params=None):
+        return self.request(params)
 
     @staticmethod
     def __refactor_search_dict(books):

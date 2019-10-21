@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, g
+from flask import Blueprint, render_template, redirect, url_for, g, request
 from ..auth.controllers import login_required
+from ..auth.models import User
 from .models import db, Note, GoodReadsAPI
-from .forms import EditNote
+from .forms import EditNote, EditProfile
+from sqlalchemy.orm.exc import NoResultFound
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -75,3 +77,32 @@ def note_delete(bid):
     db.session.commit()
 
     return redirect(url_for('dashboard.dashboard'))
+
+
+@bp.route('/profile/', methods=['GET', 'POST'])
+@bp.route('/profile/<int:uid>', methods=['GET', 'POST'])
+@login_required
+def profile(uid=None):
+    if not uid:
+        uid = g.user[0]
+
+    user = User.query.get(uid)
+    
+    if not user:
+        return redirect(url_for('main.index'))
+    
+    own_profile = False
+    if uid == g.user[0]:
+        own_profile = True
+
+    form = EditProfile()
+    if form.validate_on_submit():
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        user.email = form.email.data
+        db.session.commit()
+        return redirect(url_for('dashboard.profile'))
+
+    print(f'Accessed profile id: {uid}')
+    return render_template('dashboard/profile.html', user=user, own_profile=own_profile, form=form)
+

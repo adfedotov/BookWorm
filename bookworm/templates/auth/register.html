@@ -8,6 +8,7 @@
       </div>
     {% endfor %}
     <form method="POST">
+	{{ form.csrf_token }}
         {{ form.first_name.label }}{{ form.first_name(class_="auth-field") }}
         {% if form.first_name.errors %}
           {% for e in form.first_name.errors %}

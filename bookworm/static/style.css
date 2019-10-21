@@ -73,6 +73,10 @@ nav ul li a {
 .controls a {
 	margin: .2em 0;
 }
+.controls p a {
+	text-decoration: underline;
+	color: #FFFFFF;
+}
 
 
 /* INDEX */
@@ -249,6 +253,33 @@ nav ul li a {
     width: 100%;
     max-width: 130px;
     height: auto;
+}
+
+/* PROFILE */
+.profile-item {
+	border-bottom: .5px solid grey;
+	display: flex;
+	flex-direction: row;
+	height: 50px;
+	align-items: center;
+}
+.profile-item-edit {
+	display: flex;
+	flex-direction: row;
+	height: 50px;
+	align-items: center;
+}
+.profile-item-edit label {
+	width: 25%;
+}
+.profile-item-edit input {
+	width: 75%;
+	height: 40px;
+}
+.profile-item-title {
+	width: 25%;
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 /*MEDIA Q*/
